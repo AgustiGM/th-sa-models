@@ -4,6 +4,7 @@ import shutil
 import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_text as text
+from datasets import load_dataset
 from official.nlp import optimization  # to create AdamW optimizer
 
 import matplotlib.pyplot as plt
@@ -21,6 +22,11 @@ url = 'https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz'
 dataset_dir = os.path.join(os.path.dirname(os.getcwd())+os.sep+'pythonProject', 'aclImdb')
 
 train_dir = os.path.join(dataset_dir, 'train')
+
+dataset = load_dataset("SetFit/sst5", "default")
+train_dataset = dataset['train']
+test_dataset = dataset['test']
+print(train_dataset.features)
 
 # remove unused folders to make it easier to load the data
 # /remove_dir = os.path.join(train_dir, 'unsup')
