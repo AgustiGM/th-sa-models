@@ -9,9 +9,14 @@ from datasets import load_dataset
 from official.nlp import optimization  # to create AdamW optimizer
 
 import matplotlib.pyplot as plt
-from transformers import AutoTokenizer, DataCollatorWithPadding, TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, DataCollatorWithPadding, TFAutoModelForSequenceClassification, \
+    TFRobertaForSequenceClassification
+
+os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 tf.get_logger().setLevel('ERROR')
+
+# tf.keras.backend.set_floatx('float16')
 
 dataset = load_dataset("SetFit/sst5", "default")
 train_dataset = dataset['train']
@@ -31,10 +36,12 @@ def tokenize_function(example):
 tokenized_data = dataset.map(tokenize_function, batched=True)
 
 tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids', 'label'])
+# tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'label'])
 # rename label as labels, as expected by tf models
 tokenized_data["train"].rename_column('label', 'labels')
 # set format
 tokenized_data["validation"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids', 'label'])
+# tokenized_data["validation"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'label'])
 # make the renaming
 tokenized_data["validation"].rename_column('label', 'labels')
 
@@ -42,18 +49,20 @@ tokenized_data["validation"].rename_column('label', 'labels')
 # train set
 train_data = tokenized_data["train"].to_tf_dataset(
     columns=['attention_mask', 'input_ids', 'token_type_ids'],
+    # columns=['attention_mask', 'input_ids'],
     label_cols=['labels'],
     shuffle=True,
     collate_fn=data_collator,
-    batch_size=8
+    batch_size=4
 )
 # validation set
 val_data = tokenized_data["validation"].to_tf_dataset(
-    columns=['attention_mask', 'input_ids', 'token_type_ids'],
+    # columns=['attention_mask', 'input_ids', 'token_type_ids'],
+    columns=['attention_mask', 'input_ids'],
     label_cols=['labels'],
     shuffle=False,
     collate_fn=data_collator,
-    batch_size=8
+    batch_size=4
 )
 
 EPOCHS = 3
@@ -73,6 +82,7 @@ optimizer = keras.optimizers.Adam(learning_rate=lr_scheduler)
 loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
 # build model
+# model = TFRobertaForSequenceClassification.from_pretrained(checkpoint, num_labels=5)
 
 model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=5)
 
@@ -102,4 +112,4 @@ plt.xticks([1, 2, 3])
 plt.legend()
 plt.show()
 
-model.save("./saved_model")
+model.save_pretrained("./large")

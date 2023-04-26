@@ -10,7 +10,8 @@ from datasets import load_dataset
 from official.nlp import optimization  # to create AdamW optimizer
 
 import matplotlib.pyplot as plt
-from transformers import AutoTokenizer, DataCollatorWithPadding, TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, DataCollatorWithPadding, TFAutoModelForSequenceClassification, AutoModel, \
+    TFAutoModel, TFBertModel
 
 tf.get_logger().setLevel('ERROR')
 
@@ -37,6 +38,7 @@ tokenized_data['test'].set_format(type='tf',
                                   )
 # rename label as labels
 tokenized_data['test'].rename_column('label', 'labels')
+y_true = tokenized_data['test']['label'].numpy()
 # convert to TF Dataset
 test_data = tokenized_data["test"].to_tf_dataset(
     columns=['input_ids', 'token_type_ids', 'attention_mask'],
@@ -46,11 +48,13 @@ test_data = tokenized_data["test"].to_tf_dataset(
     batch_size=8
 )
 # loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-model = tf.keras.models.load_model("./saved_model", compile=False)
-
+model = TFAutoModelForSequenceClassification.from_pretrained("./saved_model")
 
 print(model.summary())
-preds = model.call(test_data)["logits"]
+preds = model.predict(test_data, verbose=1)['logits']
+
 label_preds = np.argmax(preds, axis=1)
 
-print(label_preds.shape)
+l = len(y_true)
+acc = sum([label_preds[i] == y_true[i] for i in range(l)]) / l
+print(acc)
