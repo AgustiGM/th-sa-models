@@ -15,14 +15,10 @@ from transformers import AutoTokenizer, DataCollatorWithPadding, TFAutoModelForS
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 tf.get_logger().setLevel('ERROR')
-
-# tf.keras.backend.set_floatx('float16')
-
+tf.keras.backend.set_floatx('float16')
 dataset = load_dataset("SetFit/sst5", "default")
-train_dataset = dataset['train']
-test_dataset = dataset['test']
 
-checkpoint = 'bert-base-uncased'
+checkpoint = 'bert-large-uncased'
 # bert tokenizer
 tokenizer = AutoTokenizer.from_pretrained(checkpoint, return_tensors='tf')
 # data collator for dynamic padding as per batch
@@ -35,12 +31,12 @@ def tokenize_function(example):
 
 tokenized_data = dataset.map(tokenize_function, batched=True)
 
-tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids', 'label'])
+tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],)
 # tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'label'])
 # rename label as labels, as expected by tf models
 tokenized_data["train"].rename_column('label', 'labels')
 # set format
-tokenized_data["validation"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids', 'label'])
+tokenized_data["validation"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],)
 # tokenized_data["validation"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'label'])
 # make the renaming
 tokenized_data["validation"].rename_column('label', 'labels')
@@ -48,7 +44,7 @@ tokenized_data["validation"].rename_column('label', 'labels')
 # convert to TF dataset
 # train set
 train_data = tokenized_data["train"].to_tf_dataset(
-    columns=['attention_mask', 'input_ids', 'token_type_ids'],
+    columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],
     # columns=['attention_mask', 'input_ids'],
     label_cols=['labels'],
     shuffle=True,
@@ -57,8 +53,7 @@ train_data = tokenized_data["train"].to_tf_dataset(
 )
 # validation set
 val_data = tokenized_data["validation"].to_tf_dataset(
-    # columns=['attention_mask', 'input_ids', 'token_type_ids'],
-    columns=['attention_mask', 'input_ids'],
+    columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],
     label_cols=['labels'],
     shuffle=False,
     collate_fn=data_collator,
@@ -70,7 +65,7 @@ TRAINING_STEPS = len(train_data) * EPOCHS
 
 # define a learning rate scheduler
 lr_scheduler = keras.optimizers.schedules.PolynomialDecay(
-    initial_learning_rate=5e-5,
+    initial_learning_rate=5e-6,
     end_learning_rate=0.0,
     decay_steps=TRAINING_STEPS
 )
@@ -82,9 +77,10 @@ optimizer = keras.optimizers.Adam(learning_rate=lr_scheduler)
 loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
 # build model
-# model = TFRobertaForSequenceClassification.from_pretrained(checkpoint, num_labels=5)
-
-model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=5)
+if 'roberta' in checkpoint:
+    model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=5)
+else:
+    model = TFAutoModelForSequenceClassification.from_pretrained(checkpoint, num_labels=5)
 
 # compile model
 model.compile(
@@ -102,14 +98,14 @@ hist = model.fit(
     epochs=EPOCHS
 )
 
-history = hist.history
-plt.plot(range(1, 4), history["accuracy"], label='train')
-plt.plot(range(1, 4), history['val_accuracy'], label='val')
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.title('Accuracy')
-plt.xticks([1, 2, 3])
-plt.legend()
-plt.show()
+# history = hist.history
+# plt.plot(range(1, 4), history["accuracy"], label='train')
+# plt.plot(range(1, 4), history['val_accuracy'], label='val')
+# plt.xlabel('Epochs')
+# plt.ylabel('Accuracy')
+# plt.title('Accuracy')
+# plt.xticks([1, 2, 3])
+# plt.legend()
+# plt.show()
 
-model.save_pretrained("./large")
+model.save_pretrained("./rob-large-16")

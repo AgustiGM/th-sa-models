@@ -19,7 +19,7 @@ dataset = load_dataset("SetFit/sst5", "default")
 train_dataset = dataset['train']
 test_dataset = dataset['test']
 
-checkpoint = 'bert-base-uncased'
+checkpoint = 'roberta-base'
 # bert tokenizer
 tokenizer = AutoTokenizer.from_pretrained(checkpoint, return_tensors='tf')
 # data collator for dynamic padding as per batch
@@ -34,21 +34,21 @@ tokenized_data = dataset.map(tokenize_function, batched=True)
 
 # set format
 tokenized_data['test'].set_format(type='tf',
-                                  columns=['input_ids', 'token_type_ids', 'attention_mask', 'label']
+                                  columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids']
                                   )
 # rename label as labels
 tokenized_data['test'].rename_column('label', 'labels')
-y_true = tokenized_data['test']['label'].numpy()
+y_true = tokenized_data['test']['label']
 # convert to TF Dataset
 test_data = tokenized_data["test"].to_tf_dataset(
-    columns=['input_ids', 'token_type_ids', 'attention_mask'],
+    columns=['input_ids', 'token_type_ids', 'attention_mask'] if 'roberta' not in checkpoint else ['input_ids', 'attention_mask'],
     label_cols=['labels'],
     shuffle=False,
     collate_fn=data_collator,
     batch_size=8
 )
 # loss_fn = keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-model = TFAutoModelForSequenceClassification.from_pretrained("./saved_model")
+model = TFAutoModelForSequenceClassification.from_pretrained("./large5")
 
 print(model.summary())
 preds = model.predict(test_data, verbose=1)['logits']
