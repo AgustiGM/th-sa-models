@@ -15,7 +15,7 @@ from transformers import AutoTokenizer, DataCollatorWithPadding, TFAutoModelForS
 os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
 tf.get_logger().setLevel('ERROR')
-#tf.keras.backend.set_floatx('float16')
+# tf.keras.backend.set_floatx('float16')
 # dataset = load_dataset("SetFit/sst5", "default")
 
 dataset = load_from_disk("sads")
@@ -33,12 +33,16 @@ def tokenize_function(example):
 
 tokenized_data = dataset.map(tokenize_function, batched=True)
 
-tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],)
+tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids',
+                                                       'token_type_ids'] if 'roberta' not in checkpoint else [
+    'attention_mask', 'input_ids'], )
 # tokenized_data["train"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'label'])
 # rename label as labels, as expected by tf models
 tokenized_data["train"].rename_column('label', 'labels')
 # set format
-tokenized_data["test"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],)
+tokenized_data["test"].set_format(type='tf', columns=['attention_mask', 'input_ids',
+                                                      'token_type_ids'] if 'roberta' not in checkpoint else [
+    'attention_mask', 'input_ids'], )
 # tokenized_data["validation"].set_format(type='tf', columns=['attention_mask', 'input_ids', 'label'])
 # make the renaming
 tokenized_data["test"].rename_column('label', 'labels')
@@ -46,7 +50,8 @@ tokenized_data["test"].rename_column('label', 'labels')
 # convert to TF dataset
 # train set
 train_data = tokenized_data["train"].to_tf_dataset(
-    columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],
+    columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask',
+                                                                                                   'input_ids'],
     # columns=['attention_mask', 'input_ids'],
     label_cols=['labels'],
     shuffle=True,
@@ -55,7 +60,8 @@ train_data = tokenized_data["train"].to_tf_dataset(
 )
 # validation set
 val_data = tokenized_data["test"].to_tf_dataset(
-    columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask', 'input_ids'],
+    columns=['attention_mask', 'input_ids', 'token_type_ids'] if 'roberta' not in checkpoint else ['attention_mask',
+                                                                                                   'input_ids'],
     label_cols=['labels'],
     shuffle=False,
     collate_fn=data_collator,
@@ -99,15 +105,5 @@ hist = model.fit(
     validation_data=val_data,
     epochs=EPOCHS
 )
-
-# history = hist.history
-# plt.plot(range(1, 4), history["accuracy"], label='train')
-# plt.plot(range(1, 4), history['val_accuracy'], label='val')
-# plt.xlabel('Epochs')
-# plt.ylabel('Accuracy')
-# plt.title('Accuracy')
-# plt.xticks([1, 2, 3])
-# plt.legend()
-# plt.show()
 
 model.save_pretrained("./custom")
