@@ -2,7 +2,7 @@ I like this app because even I miss the news whether I now I'm still wach to the
 It helps as in I don't have to constantly take the SD card out but it's slow and I'm no way will it let me use it as a controller for my garmin 45.	1	1
 I hate that the camera video jiggles when I have to hold to record.	0	1
 I can't connect it to my phone unless it's not recording and that defeats the purpose.	1	1
-It's also very slow.	1	0
+It's also very slow.	1	2
 I have a very up to date phone so idk.	2	1
 Could be A LOT better.	1	2
 Still trying to get s hold of it, hoping I get more styles.	1	2
@@ -83,45 +83,45 @@ Searching by the POI was even more unreliable.	1	1
 DONT INSTALL SO SLOW SPLITTING A 5 MINUTE VIDEO.	0	2
 I USED ANOTHER APP AND IT DID IT IN 10 SECONDS IT ALSO COUDNT FIND MY VIDEO I WANTED TO TRIM FOR WHATSAPP.	0	2
 It's good when there are traffic jams as it gives you alternative routes.	3	1
-Sound can be bit louder.	1	1
+Sound can be bit louder.	1	2
 Sometimes roads disappear from the screen and the screen is blank which isn't very helpful when navigating.	1	1
 Guys, you have to optimize power consumption.	1	2
 App drains battery like teenager pumpkin spice latte.	0	2
-Love this game but there is one thing wrong, and that is the credit vault.	1	1
+Love this game but there is one thing wrong, and that is the credit vault.	1	2
 You should make it in the next update where you can get half of the credit vault, but if you want the full amount you pay.	2	1
-Also add more cars.	2	0
+Also add more cars.	2	1
 GREAT GAME.	4	2
 Great app, everyone should try this app at least onceðŸ–¤.	4	2
 I wonder why i no longer receive emails into my inbox.	1	1
 It used to work well for me, explain what can be the root problem of this?.	1	2
-Easy to use and nice to have all info in one place.	3	1
+Easy to use and nice to have all info in one place.	3	2
 I just wish all practices in an area used this app.	3	2
 I already paid but why still can't add the widget? It's keep saying to upgrade.	1	2
-Scam! Don't sign up for the free trial as they will take the money off your card.	0	1
+Scam! Don't sign up for the free trial as they will take the money off your card.	0	2
 And if you try to reach out to them about it they will ignore you!!!.	0	2
-All good so far.	3	0
-Accurate and reliable.	3	0
+All good so far.	3	2
+Accurate and reliable.	3	2
 Easy format to understand.	3	1
 Great game I like it please bring some more good games like this game ðŸ‘ðŸ‘ðŸ‘ðŸ‘ðŸ‘ðŸ‘ðŸ‘ðŸ‘ðŸ¤œðŸ¤›ðŸ¤œðŸ¤›ðŸ¤œðŸ¤›ðŸ¤œðŸ¤›.	4	2
 Thanks mates! For building such a nice app .	4	2
 Thanks to you many people are going to become their best selfs (me included).	3	2
 Great app let's you discover what's going on around you and allows you to find housing or hotel around the venues area.	3	1
 Great app I use it all the time!.	4	2
-There are some days where i missed tick-ing them.	2	2
+There are some days where i missed tick-ing them.	2	1
 Can you please2 add the option to retick the tasks on the days before? Thank you.	2	1
 I can go at my own pace.	3	2
-There are videos to show me how to do the stretch correctly if I am not sure.	3	2
+There are videos to show me how to do the stretch correctly if I am not sure.	3	1
 So far i love this app.	3	2
 It's got separate lists for everything.	2	0
 And with corresponding tasks below.	2	0
 And every main lists has sublists that you can organize.	2	0
 I also love that you can put schedule and alarms on the calendar with choice of reminders.	3	1
-You can also insert images so you know instantly what the list is about.	2	1
+You can also insert images so you know instantly what the list is about.	2	0
 And most of all IT'S FREE.	3	1
 I'm sure the premium one is much much better.	3	2
 Love love love it! Good job! ðŸ‘ðŸŒŸðŸ’¯ðŸ‘â™¥ï¸.	4	2
 A clean concise app that makes up for yet another feature Android forgot.	3	1
- Reminiscent of the Ctrl-W feature in WordPerfect or the Charmap feature in Windows.	2	0
+ Reminiscent of the Ctrl-W feature in WordPerfect or the Charmap feature in Windows.	2	1
  This is also really handy on Bluetooth keyboards that can't access even Android's limited character input (which makes me glad it's NOT integrated with a stock keyboard).	3	1
  The interface is more functional than I would have expected.	3	2
  Kudos! ðŸ‘.	4	2
@@ -131,9 +131,9 @@ But unfortunately to be able to fully access and find tools that are helpful to 
 You have to pay for it.	2	0
 Not everyone has the money and mental health shouldn't and should never come with a price.	1	1
 Best to do app I found so far! Keep up the good work guys!.	4	2
-Good App but cant store measurement info only the image.	3	0
+Good App but cant store measurement info only the image.	3	1
 Getting worse now.	1	1
-This app used to be good but Spotify is no longer connecting up.	1	0
+This app used to be good but Spotify is no longer connecting up.	1	1
 That was one of the things I used on the app a-lot as it would put a suggestion of sanvello music - according to how your day was- and now it doesn't! I've messaged the team and they just ignore me each time.	1	1
 I've spoke to Spotify too and they state it is a fault with sanvello.	2	1
 I think I'm just going to cancel this- I mean - it's almost ending anyway.	1	2
@@ -142,7 +142,7 @@ Disgraceful customer service!.	0	2
 A simple yet highly motivating tool to help improve overall wellness.	3	1
 Very helpful easy to understand great outlook of forecast.	3	2
 Love it!! Great app!! If you fly Quadcopter as a hobby, or any kind of RC flyer, you'll need this app.	4	2
-I am planning a trip to El Salvador in Central America and this app can tell me the weather conditions in that country.	2	1
+I am planning a trip to El Salvador in Central America and this app can tell me the weather conditions in that country.	2	0
 Recommended!.	3	2
 I sign up again to retrieve old messages, but cant get them.	2	1
 I look for a long time for such a type of app till I find this amazing appðŸ‘ðŸ‘ ðŸ‘.	4	2
@@ -162,17 +162,17 @@ It doesn't take up much storage space compared to how potentially lifesaving it 
 It's a pretty great app and I have had it for several years now just incase and cuz it is an interesting read when you have no service.	3	1
 If I tap "Share Location", and select a Contact Name, it asks that person to share their location with  me.	2	1
 If I tap "Request Location", and select a Contact Name", it asks that person to share their location with  me.	2	1
-Both "Share" and "Request" asks the same question.	1	1
-"Share your location with me".	2	1
-Not good.	1	1
----- It does everything it says it does.	3	1
+Both "Share" and "Request" asks the same question.	1	0
+"Share your location with me".	2	0
+Not good.	1	2
+---- It does everything it says it does.	3	0
 I'm all in.	4	2
 Props.	4	2
 This was advertised as a free countdown widget app, but upon setting up the app, you have to pay for the premium version of the app to use the widget.	1	0
 Easy to follow, clear instructions.	3	1
 Quick session and I feel like I've achieved something for the day.	3	1
-If you want to freshen up an app you've used for a long while, this was a fresh add on.	3	1
-We do all our work with web version and it's great.	3	1
+If you want to freshen up an app you've used for a long while, this was a fresh add on.	3	2
+We do all our work with web version and it's great.	3	2
 Android app, not so much right now.	1	1
 This is the first program I could conveniently use to control work/rest cycles.	3	1
 One issue I could not manage is when the screen turns off, the program still shows controls and if you keep the phone in your pocket, those buttons are pressed randomly.	1	1
@@ -185,7 +185,7 @@ and its FREE! Thank you.	4	2
 5 â­ rating.	4	2
 It is good to be able to track your heart rate and save these things because your doctor could review this and help diagnose a potential issue and treat it early on rather than too late.	3	1
 Dont advertise dark theme if it is only available when the system supports it.	1	1
-Also, widgets cannot be resized.	1	1
+Also, widgets cannot be resized.	1	0
 As for the rest, ad free and basic.	3	1
 Still by far the best puzzle collection.	3	1
 Offline.	3	0
