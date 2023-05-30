@@ -85,13 +85,20 @@ parser.add_argument("--tree_dir",
                     type=str,
                     required=True,
                     help="The input tree dir.")
+parser.add_argument("--subds",
+                    default='pol',
+                    type=str,
+                    required=True,
+                    help="The sub dataset (pol or sub).")
+
+
 args = parser.parse_args()
 
-with open((args.tree_dir + os.sep + 'xxx' + args.stage + '.txt.json'), 'r') as f:
+with open((args.tree_dir + os.sep + 'xxx' + args.subds + args.stage + '.txt.json'), 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-f1 = open(os.path.join(args.data_dir, 'xxx_' + args.stage + '_text_new.txt'), 'w')
-f2 = open(os.path.join(args.data_dir, 'xxx_' + args.stage + '.txt'), 'r')
+f1 = open(os.path.join(args.data_dir, f'xxx{args.subds}_' + args.stage + '_text_new.txt'), 'w', encoding='utf-8')
+f2 = open(os.path.join(args.data_dir, f'xxx{args.subds}_' + args.stage + '.txt'), 'r',encoding='utf-8')
 
 idx = 0
 sen_list = []
@@ -141,11 +148,16 @@ for sen in sen_set:
         expression.append("split")
 
 if args.stage == "train":
-    aux = [3, 1, 0, 1, 1, 2, 1, 1, 4, 4, 2, 1, 2, 1, 0, 3, 1, 4, 3, 3, 3, 1, 3, 4, 4, 1, 2, 2, 1, 1, 3, 4, 1, 1, 2, 1,
-           2, 3, 1, 3, 3, 4, 4, 0, 1, 2, 1, 0, 1, 2, 2, 1, 1, 1, 0, 0, 2, 2, 2, 3, 2, 4, 3, 4]
+    if args.subds == 'pol':
+        aux = np.load('train_pol_labels.npy')
+    else:
+        aux = np.load('train_sub_labels.npy')
 else:
-    aux = [4, 1, 2, 3, 4, 2, 1, 4, 2, 4, 4, 2, 4, 1, 2, 2, 1, 1, 0, 0]
-twitter_label = np.array(aux)
+    if args.subds == 'pol':
+        aux = np.load('test_pol_labels.npy')
+    else:
+        aux = np.load('test_sub_labels.npy')
+twitter_label = aux
 
 max_len = 128
 maxi = 0
@@ -371,10 +383,10 @@ for i in range(len(expression)):
     span_3.append(span_mask_3)
 
 # print(len(span), len(label))
-np.save(os.path.join(args.data_dir, 'xxx_' + args.stage + '_span.npy'), span)
-np.save(os.path.join(args.data_dir, 'xxx_' + args.stage + '_span_3.npy'), span_3)
-np.save(os.path.join(args.data_dir, 'xxx_label_' + args.stage + '.npy'), label)
-np.save(os.path.join(args.data_dir, 'xxx_' + args.stage + '_split.npy'), split)
+np.save(os.path.join(args.data_dir, f'xxx{args.subds}_' + args.stage + '_span.npy'), span)
+np.save(os.path.join(args.data_dir, f'xxx{args.subds}_' + args.stage + '_span_3.npy'), span_3)
+np.save(os.path.join(args.data_dir, f'xxx{args.subds}_label_' + args.stage + '.npy'), label)
+np.save(os.path.join(args.data_dir, f'xxx{args.subds}_' + args.stage + '_split.npy'), split)
 
 f2.close()
 f1.close()

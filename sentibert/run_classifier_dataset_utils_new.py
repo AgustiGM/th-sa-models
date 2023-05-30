@@ -173,16 +173,16 @@ class MnliProcessor(DataProcessor):
         return examples
 
 
-class XXXProcessor(DataProcessor):
+class XXXPOLProcessor(DataProcessor):
     """Processor for the STS-B data set (GLUE version)."""
 
     def get_train_examples(self, data_dir, para):
         """See base class."""
-        lines = open(os.path.join(data_dir, "xxx_train_text_new.txt"))
-        label = np.load(os.path.join(data_dir, "xxx_label_train.npy"))
+        lines = open(os.path.join(data_dir, "xxxpol_train_text_new.txt"), encoding='utf-8')
+        label = np.load(os.path.join(data_dir, "xxxpol_label_train.npy"))
         if para == "sentibert":
-            span = np.load(os.path.join(data_dir, "xxx_train_span.npy"))
-            span_3 = np.load(os.path.join(data_dir, "xxx_train_span_3.npy"))
+            span = np.load(os.path.join(data_dir, "xxxpol_train_span.npy"))
+            span_3 = np.load(os.path.join(data_dir, "xxxpol_train_span_3.npy"))
         else:
             span = None
             span_3 = None
@@ -191,11 +191,11 @@ class XXXProcessor(DataProcessor):
 
     def get_dev_examples(self, data_dir, para):
         """See base class."""
-        lines = open(os.path.join(data_dir, "xxx_test_text_new.txt"))
-        label = np.load(os.path.join(data_dir, "xxx_label_test.npy"))
+        lines = open(os.path.join(data_dir, "xxxpol_test_text_new.txt"),encoding='utf-8')
+        label = np.load(os.path.join(data_dir, "xxxpol_label_test.npy"))
         if para == "sentibert":
-            span = np.load(os.path.join(data_dir, "xxx_test_span.npy"))
-            span_3 = np.load(os.path.join(data_dir, "xxx_test_span_3.npy"))
+            span = np.load(os.path.join(data_dir, "xxxpol_test_span.npy"))
+            span_3 = np.load(os.path.join(data_dir, "xxxpol_test_span_3.npy"))
         else:
             span = None
             span_3 = None
@@ -235,7 +235,67 @@ class XXXProcessor(DataProcessor):
 
         return examples
 
+class XXXSUBProcessor(DataProcessor):
+    """Processor for the STS-B data set (GLUE version)."""
 
+    def get_train_examples(self, data_dir, para):
+        """See base class."""
+        lines = open(os.path.join(data_dir, "xxxsub_train_text_new.txt"), encoding='utf-8')
+        label = np.load(os.path.join(data_dir, "xxxsub_label_train.npy"))
+        if para == "sentibert":
+            span = np.load(os.path.join(data_dir, "xxxsub_train_span.npy"))
+            span_3 = np.load(os.path.join(data_dir, "xxxsub_train_span_3.npy"))
+        else:
+            span = None
+            span_3 = None
+
+        return self._create_examples(lines, label, span, span_3, "train")
+
+    def get_dev_examples(self, data_dir, para):
+        """See base class."""
+        lines = open(os.path.join(data_dir, "xxxsub_test_text_new.txt"), encoding='utf-8')
+        label = np.load(os.path.join(data_dir, "xxxsub_label_test.npy"))
+        if para == "sentibert":
+            span = np.load(os.path.join(data_dir, "xxxsub_test_span.npy"))
+            span_3 = np.load(os.path.join(data_dir, "xxxsub_test_span_3.npy"))
+        else:
+            span = None
+            span_3 = None
+
+        return self._create_examples(lines, label, span, span_3, "dev")
+
+    def get_labels(self):
+        """See base class."""
+        return ["0", "1", "2"]
+
+    def _create_examples(self, lines, label, span, span_3, set_type):
+        """Creates examples for the training and dev sets."""
+        examples = []
+        i = 0
+        for line in lines:
+            guid = "%s-%s" % (set_type, i)
+            text_a = line.strip()
+            text_b = ""
+
+            if label[i] == "positive":
+                label[i] = "0"
+            else:
+                if label[i] == "negative":
+                    label[i] = "1"
+                if label[i] == "neutral":
+                    label[i] = "2"
+
+            if span is not None:
+                examples.append(
+                    InputExample(guid=guid, text_a=text_a, text_b=text_b, span=span[i], span_3=span_3[i],
+                                 label=str(label[i])))
+            else:
+                examples.append(
+                    InputExample(guid=guid, text_a=text_a, text_b=text_b, span=None, span_3=None, label=str(label[i])))
+
+            i += 1
+
+        return examples
 class MnliMismatchedProcessor(MnliProcessor):
     """Processor for the MultiNLI Mismatched data set (GLUE version)."""
 
@@ -1310,7 +1370,9 @@ def compute_metrics(task_name, preds, labels, preds_ans=None):
         return {"acc": micro_f1(preds, labels)}
     elif task_name == "emoint":
         return pearson_and_spearman(preds, labels)
-    elif task_name == "xxx":
+    elif task_name == "xxxpol":
+        return {"acc": simple_accuracy(preds, labels)}
+    elif task_name == "xxxsub":
         return {"acc": simple_accuracy(preds, labels)}
     else:
         raise KeyError(task_name)
@@ -1331,7 +1393,8 @@ processors = {
     "twitter": TwitterProcessor,
     "emocontext": EmoContextProcessor,
     "emoint": EmoIntProcessor,
-    "xxx": XXXProcessor
+    "xxxpol": XXXPOLProcessor,
+    "xxxsub": XXXSUBProcessor
 }
 
 output_modes = {
@@ -1349,5 +1412,6 @@ output_modes = {
     "twitter": "classification",
     "emocontext": "classification",
     "emoint": "classification",
-    "xxx": "classification"
+    "xxxpol": "classification",
+    "xxxsub": "classification"
 }

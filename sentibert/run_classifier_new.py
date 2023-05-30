@@ -263,7 +263,7 @@ def main():
         # Prepare data loader
         if False:
             logger.info("  Reading train features into cached file %s", cached_train_features_file)
-            with open(cached_train_features_file, "rb") as writer:
+            with open(cached_train_features_file, "rb", encoding='utf-8') as writer:
                 train_features = pickle.load(writer)
         else:
             if task_name == "emoint":
@@ -482,7 +482,7 @@ def main():
     if args.do_eval and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
         if False:
             logger.info("  Reading eval features into cached file %s", cached_eval_features_file)
-            with open(cached_train_features_file, "rb") as writer:
+            with open(cached_train_features_file, "rb", encoding='utf-8') as writer:
                 eval_features = pickle.load(writer)
         else:
             if task_name == "emoint":
@@ -765,7 +765,7 @@ def main():
             result['loss'] = loss
 
             output_eval_file = os.path.join(args.output_dir + '-MM', "eval_results.txt")
-            with open(output_eval_file, "w") as writer:
+            with open(output_eval_file, "w", encoding='utf-8') as writer:
                 logger.info("***** Eval results *****")
                 for key in sorted(result.keys()):
                     logger.info("  %s = %s", key, str(result[key]))
